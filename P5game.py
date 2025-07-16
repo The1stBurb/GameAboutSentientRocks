@@ -1,4 +1,5 @@
 import pygame
+from math import sqrt
 pygame.init()
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height))
@@ -11,14 +12,14 @@ font = pygame.font.SysFont(None, FONT_SIZE)
 COLOUR=(0,0,0)
 STROKE=(0,0,0)
 STROKE_WEIGHT=1
-def fill(r,g=False,b=False):
+def fill(r,g=-1,b=-1):
     global COLOUR
     if isinstance(r,tuple):r,g,b=r
-    if g==False and b==False:g=b=r
+    if g==-1 and b==-1:g=b=r
     COLOUR=(r,g,b)
-def stroke(r,g=False,b=False):
+def stroke(r,g=-1,b=-1):
     global STROKE
-    if g==False and b==False:g=b=r
+    if g==-1 and b==-1:g=b=r
     STROKE=(r,g,b)
 def strokeWeight(val):
     global STROKE_WEIGHT
@@ -33,8 +34,8 @@ def ellipse(x,y,w,h=False):
 def line(x1,y1,x2,y2):
     pygame.draw.line(screen, STROKE, (x1, y1), (x2, y2), STROKE_WEIGHT)
 def text(txt,x,y,centerX=False,centerY=False,shadow=False,rightAlign=False,bottomAlign=False):
-    if shadow:shdwTxt=font.render(txt,True,(0,0,0))
-    txt=font.render(txt,True,COLOUR)
+    if shadow:shdwTxt=font.render(str(txt),True,(0,0,0))
+    txt=font.render(str(txt),True,COLOUR)
     pos=txt.get_rect()
     if centerX:pos.centerx=x
     elif rightAlign:pos.right=x
@@ -102,3 +103,5 @@ class MOUSE:
             else:self.rightClick=False
         else:self.rightWasPress=False
 mouse=MOUSE()
+def dist(x1,y1,x2,y2):
+    return sqrt((x1-x2)**2+(y1-y2)**2)
