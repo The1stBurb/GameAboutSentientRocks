@@ -74,11 +74,13 @@ class Wire:
         line(x1+logicW,y1,x2,y2)
 
 class LogicGate:
-    def __init__(self,name,inputs={},outputs={},wires=[],gates={},logic="",x=0,y=0):
+    def __init__(self,name,inputs={},outputs={},wires=[],gates={},logic="",x=0,y=0,inpos=[],outpos=[]):
         self.name=name
         self.inps=inputs
+        self.inpos=inpos
         # self.inpVal=[-1 for i in range(len(self.inps))]
         self.outs=outputs
+        self.outpos=outpos
         # self.outVal=[-1 for i in range(len(self.inps))]
         self.wires=wires
         self.gates=gates
@@ -157,7 +159,7 @@ baseGate.wires.append(Wire("main","a",nm,"b"))
 baseGate.wires.append(Wire("main","b",nm,"a"))
 baseGate.wires.append(Wire(nm,"out","main","c"))
 running = True
-kbrd=[]
+kbrd=[""]
 while running:
     mouse.update()
     screen.fill((255, 255, 255))
@@ -174,8 +176,9 @@ while running:
         logicBtns[i].disp()
         if logicBtns[i].activateLeft():print("ACTIVATED FOR",i)
     pygame.display.flip()
-    if kbrd[-1]=="s" and kbrd[-2]=="ctrl":
-        logicGates[baseGate.name]=(baseGate.name,baseGate.inps,baseGate.outs,baseGate.wires,baseGate.gates,baseGate.logic)
-        baseGate=LogicGate("Unamed",x=0,y=10)
+    if len(kbrd)>2:
+        if kbrd[-1]=="s" and kbrd[-2]=="ctrl":
+            logicGates[baseGate.name]=(baseGate.name,baseGate.inps,baseGate.outs,baseGate.wires,baseGate.gates,baseGate.logic)
+            baseGate=LogicGate("Unamed",x=0,y=10)
 # Clean up
 pygame.quit()
